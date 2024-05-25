@@ -1,11 +1,13 @@
 import subprocess
 import streamlit
+import imageio_ffmpeg as ffmpeg
 from lyzr import VoiceBot
 
 
 def convert_vdo_to_mp3(input_file, output_file):
+    ffmpeg_path = ffmpeg.get_ffmpeg_exe()
     ffmpeg_cmd = [
-        'ffmpeg',
+        ffmpeg_path,
         '-i', input_file,
         '-vn',
         '-acodec', 'libmp3lame',
@@ -13,14 +15,13 @@ def convert_vdo_to_mp3(input_file, output_file):
         '-ar', '44100',
         '-y',
         output_file
-
     ]
 
     try:
         subprocess.run(ffmpeg_cmd, check=True)
-        streamlit.info('Successfully Conveted !!!')
+        streamlit.info('Successfully Converted !!!')
     except subprocess.CalledProcessError as e:
-        streamlit.error('Converstion Failed !!!')
+        streamlit.error('Conversion Failed !!!')
 
 
 
