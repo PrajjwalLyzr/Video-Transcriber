@@ -84,23 +84,23 @@ if api_key != "":
 
 
 
-        video_file = st.file_uploader(label='Upload any video file', type=video_formats)
+    video_file = st.file_uploader(label='Upload any video file', type=video_formats)
 
-        if video_file is not None:
-            utils.save_uploaded_file(video_file, directory_name=videoDir)
-            file_name = utils.get_files_in_directory(directory=videoDir)
-            video_file_name = file_name[0]
-            audio_file_name = './AudioDir/audio.mp3'
-            convert_vdo_to_mp3(input_file=video_file_name, output_file=audio_file_name)
-            if st.button('Get Transcript'):
-                audio_file_path = utils.get_files_in_directory(directory=audioDir)
-                transcript = audio_transcript(audio_file_path[0], API_KEY=api_key)
-                st.markdown('---')
-                st.text_area(label='Transcription', value=transcript, height=500)
+    if video_file is not None:
+        utils.save_uploaded_file(video_file, directory_name=videoDir)
+        file_name = utils.get_files_in_directory(directory=videoDir)
+        video_file_name = file_name[0]
+        audio_file_name = './AudioDir/audio.mp3'
+        convert_vdo_to_mp3(input_file=video_file_name, output_file=audio_file_name)
+        if st.button('Get Transcript'):
+            audio_file_path = utils.get_files_in_directory(directory=audioDir)
+            transcript = audio_transcript(audio_file_path[0], API_KEY=api_key)
+            st.markdown('---')
+            st.text_area(label='Transcription', value=transcript, height=500)
 
-        else:
-            utils.remove_existing_files(videoDir)
-            utils.remove_existing_files(audioDir)
+    else:
+        utils.remove_existing_files(videoDir)
+        utils.remove_existing_files(audioDir)
 
 else:
     st.warning('Please Provide your OpenAI API Key')
